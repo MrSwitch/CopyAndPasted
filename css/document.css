@@ -1,0 +1,267 @@
+﻿html{
+}
+body {
+	margin:0;
+	overflow:scroll;
+	font-size:12px;
+	background-color:#ccc;
+	font-family:Calibri, serif;
+}
+	body header{
+		position:fixed;
+		top:0;
+		left:0;
+		right:0;
+		-webkit-transition:box-shadow 0.5s;
+		margin:0;
+		padding:0;
+	}
+	body header.float{
+		background-color:inherit;
+		box-shadow:0 10px 10px -10px black;
+		-webkit-box-shadow: 0 10px 10px -10px black;
+		-moz-box-shadow: 0 10px 10px -10px black; 
+		filter: progid:DXImageTransform.Microsoft.dropShadow(color=#11000000, offX=0, offY=3px, positive=true);
+	}
+		body header nav{
+			border-left: 3px solid rgba(0,0,0,0.1);
+		}
+
+		body header nav{
+			display:inline-block;
+		}
+		body header nav + nav{
+			display:inline-block;
+		}
+			body header nav a,
+			body header nav span, 
+			body header nav select, 
+			body header nav button{
+				border:none;
+				font-family:Arial, Helvetica, sans-serif;
+				background:none;
+				font-size:1em;
+				border-top:3px solid transparent;
+			}
+			body header nav button:hover{
+				-webkit-transition:border-top-color 0.3s;
+				border-top-color:rgba(0,0,0,0.1);
+			}
+			body header nav button.selected{
+				border-top-color:green;
+			}
+			
+			body header nav a{
+				margin:auto 5px;
+				display:inline-block;
+				padding:auto 5px;
+				border:none;
+				background:#222222;
+				filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0,startColorstr='#30FFFFFF', endColorstr='#30000000');
+				background:-webkit-gradient(linear,left top, left bottom, from(rgba(255,255,255,0.2)), to(rgba(0,0,0,0.2)), 
+							color-stop(50%,rgba(255,255,255,0)), 
+							color-stop(50%,rgba(0,0,0,0)));
+				background: -moz-linear-gradient(rgba(255,255,255,0.2) 0,rgba(255,255,255,0) 49%,rgba(0,0,0,0) 51%,rgba(0,0,0,0.2) 100%);
+			    -webkit-box-shadow: rgba(255, 255, 255, 0.1) 0 1px inset,
+			                        rgba(0, 0, 0, 0.4) 0px 1px 1px;
+			    -moz-box-shadow: rgba(255, 255, 255, 0.1) 0 1px inset,
+			                        rgba(0, 0, 0, 0.4) 0px 1px 1px;
+				text-shadow:rgba(0, 0, 0, 0.4) 0px 1px;
+			
+				-webkit-border-radius:3px;
+				-moz-border-radius:3px;
+				border-radius:3px;
+				padding:3px 6px;
+				color:white;/*IE*/
+				color:rgba(255,255,255,0.5);
+				-webkit-user-select:none;
+				-moz-user-select:none;
+				font-family:"Lucida Grande", Arial, sans-serif;
+				font-size:13px;
+				cursor:pointer;
+				vertical-align: middle;
+			}
+				body header nav a:active{
+				    -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px,
+				                        rgba(0, 0, 0, 0.7) 0px 1px 3px inset,
+				                        rgba(0, 0, 0, 0.1) 0px -5px 12px inset;
+				    -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px,
+				                        rgba(0, 0, 0, 0.7) 0px 1px 3px inset,
+				                        rgba(0, 0, 0, 0.1) 0px -5px 12px inset;
+					text-shadow:white 0 0 5px;
+					color:white;
+				}
+		
+		header ul{
+			margin:0;
+			padding:0;
+		}
+			header ul li{
+				display:inline-block;
+				box-shadow:0 0 5px #888;
+				background:white;
+				font-size:14px;
+				vertical-align:top;
+				margin:10px;
+			}
+				header ul li a{
+					overflow:hidden;
+					display:block;
+					width:66px;
+					height:100px;
+					padding:10px;
+					text-decoration:none;
+					font-size:2em;
+					color:inherit;
+				}
+				header ul li a.active{
+					outline:2px solid gold;
+				}
+
+	body article{
+		max-width:800px;
+		background-color:white;
+		box-shadow:0 0 20px #888;
+		margin:30px auto;
+		padding:100px;
+		font-size:1.4em;
+	}
+	
+		body article h3{
+			line-height:115%;
+			page-break-after:avoid;
+			font-size:11.0pt;
+			color:#4F81BD;
+		}
+	
+		body article p{
+			text-align:justify;
+		}
+		
+		body article nav li{
+			margin:10px 0;
+		}
+			body article nav li span{
+				display:block;
+				font-style:italic;
+				margin-left:10px;
+			}
+		
+		
+		body article header h2{
+			padding-bottom:0;
+			margin-bottom:0;
+		}
+		body article header p{
+			font-style:italic;
+			line-height:1em;
+			padding:0;
+			margin:0;
+			margin-bottom:30px;
+		}
+		
+		body article img{
+			max-width:760px;
+			padding:20px; 
+			border:1px solid #eee;
+		}
+	
+	
+		body article blockquote { 
+			font-size: 14px; 
+			border:1px solid #FFCC00; 
+			background-color:#FFFFEE;
+			padding:20px; 
+			margin:0;
+		}
+		
+		/** Pretty printing styles. Used with prettify.js. */
+		body article pre { font-size: 14px; border:1px solid #ddd; background-color:#f5f6f5; padding:20px; }
+			body article pre .str { color: #080; }
+			body article pre .kwd { color: #008; }
+			body article pre .com { color: #800; }
+			body article pre .typ { color: #606; }
+			body article pre .lit { color: #066; }
+			body article pre .pun { color: #660; }
+			body article pre .pln { color: #000; }
+			body article pre .tag { color: #008; }
+			body article pre .atn { color: #606; }
+			body article pre .atv { color: #080; }
+			body article pre .dec { color: #606; }
+
+
+
+@media print{
+	body { 
+		padding:auto;
+		max-width:auto;
+	}
+
+	body header{
+		display:none;
+	}
+	
+	body article a:after{
+		content:" [" attr(href) "]";
+	}
+}
+
+@media all and (max-width: 1000px){
+	body header{
+		position:relative;
+	}
+	body article{
+		padding:4%;
+	}
+	body article section img{
+		padding:0;
+		border:0;
+	}
+	body article pre{
+		white-space:pre-wrap;
+	}
+}
+
+
+
+* {
+	scrollbar-3dlight-color:#333333;
+	scrollbar-arrow-color:#999999;
+	scrollbar-darkshadow-color:#333333;
+	scrollbar-face-color:#444444;
+	scrollbar-highlight-color:#333333;
+	scrollbar-shadow-color:#333333;
+	scrollbar-track-color:#333333;	
+}
+
+ 
+::-webkit-scrollbar {
+    background-color: transparent;
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment {
+    display: block;
+}
+::-webkit-scrollbar-button:vertical:start:increment,
+::-webkit-scrollbar-button:vertical:end:decrement {
+    display: none;
+}
+::-webkit-scrollbar-button:vertical:increment {
+    border:5px solid transparent;
+    border-bottom:none;
+    border-top:5px solid gray;
+}
+::-webkit-scrollbar-button:vertical:decrement {
+    margin:2px;
+    border:5px solid transparent;
+    border-top:none;
+    border-bottom:5px solid gray;
+}
+::-webkit-scrollbar-thumb:vertical {
+    background-color: #1b1b1b;
+}
+::-webkit-scrollbar-thumb:vertical:hover {
+    background-color: #1b1b1b;
+}
