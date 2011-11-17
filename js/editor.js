@@ -214,6 +214,8 @@ function insert(cmd,value){
 }
 
 
+
+
 /****************
  * ADDING EVENTS
  ****************/
@@ -240,60 +242,71 @@ $("body > header > nav.editor > button").click(function(){
 	var cmd = $(this).attr("data-cmd");
 
 	if(cmd==='insertimage'){
-		$("<input type='file' style='opacity:0;position:absolute;'/>")
-			.insertAfter(this)
-			.trigger('focus')
-			.change(function(e){
-				if(!(this.files && "FileReader" in window)){
-					return;
-				};
-				var file = this.files[0],
-					reader = new FileReader();
+
+		// Reuse an exiting one if not already available
+		$fileType = $(this).siblings("input[type=file]").filter(function(){return $(this).val()===""});
+
+		// Add a new one
+		if($fileType.length === 0){
+			$fileType = $("<input type='file' style='opacity:0;position:absolute;left:-1000px'/>")
+				.change(function(e){
+					if(!(this.files && "FileReader" in window)){
+						return;
+					};
+					var file = this.files[0],
+						reader = new FileReader();
+		
+					reader.onload = function(event){
+					    var img = new Image(),
+					    	canvas = document.createElement("canvas"),
+					    	ctx = canvas.getContext("2d"),
+					    	maxWidth = maxHeight = 700;
 	
-				reader.onload = function(event){
-				    var img = new Image(),
-				    	canvas = document.createElement("canvas"),
-				    	ctx = canvas.getContext("2d"),
-				    	maxWidth = maxHeight = 700;
-
+						
+					    img.onload = function()
+					    {
+							var ratio = 1;
+							
+							if(img.width > maxWidth){
+								ratio = maxWidth / img.width;
+							}
+							if(img.height > maxHeight){
+								ratio = Math.min(maxHeight / img.height, ratio);
+							}
+							
+							canvas.width = img.width * ratio;
+							canvas.height = img.height * ratio;
+							ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+							
+							// insert this into the current document as an image 
+							var canvasDataURL = canvas.toDataURL();
+							log("CANVAS LENGTH" + canvas.toDataURL().length );
+							insert("insertimage", canvasDataURL.length < reader.result.length? canvasDataURL : reader.result );
+	
+					        
+					    };
 					
-				    img.onload = function()
-				    {
-						var ratio = 1;
-						
-						if(img.width > maxWidth){
-							ratio = maxWidth / img.width;
-						}
-						if(img.height > maxHeight){
-							ratio = Math.min(maxHeight / img.height, ratio);
-						}
-						
-						canvas.width = img.width * ratio;
-						canvas.height = img.height * ratio;
-						ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-						
-						// insert this into the current document as an image 
-						var canvasDataURL = canvas.toDataURL();
-						log("CANVAS LENGTH" + canvas.toDataURL().length );
-						insert("insertimage", canvasDataURL.length < reader.result.length? canvasDataURL : reader.result );
+					    img.src = reader.result;
+					    log("IMG LENGTH "+reader.result.length);
+					    
+					};
+					reader.readAsDataURL(file);
+				})
+				.insertAfter(this);
+		}
 
-				        
-				    };
-				
-				    img.src = reader.result;
-				    log("IMG LENGTH "+reader.result.length);
-				    
-				};
-				reader.readAsDataURL(file);
-			})
+		// Trigger focus and click events
+		$fileType
+			.trigger('focus')
 			.trigger('click');
+
 		return false;
 	}
 	else if(!cmd){
 		return false;
 	}
 	
-	console.log(cmd);
+	log(cmd);
 
 	
 	/**
@@ -431,7 +444,6 @@ $("article").bind('click keyup blur', function(e){
 			else 
 				this.selectedIndex = -1;
 		};
-		
 	});
 
 	//console.log(c,obj,$(obj).parents());
