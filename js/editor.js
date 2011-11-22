@@ -248,50 +248,8 @@ $("body > header > nav.editor > button").click(function(){
 
 		// Add a new one
 		if($fileType.length === 0){
-			$fileType = $("<input type='file' style='opacity:0;position:absolute;left:-1000px'/>")
-				.change(function(e){
-					if(!(this.files && "FileReader" in window)){
-						return;
-					};
-					var file = this.files[0],
-						reader = new FileReader();
-		
-					reader.onload = function(event){
-					    var img = new Image(),
-					    	canvas = document.createElement("canvas"),
-					    	ctx = canvas.getContext("2d"),
-					    	maxWidth = maxHeight = 700;
-	
-						
-					    img.onload = function()
-					    {
-							var ratio = 1;
-							
-							if(img.width > maxWidth){
-								ratio = maxWidth / img.width;
-							}
-							if(img.height > maxHeight){
-								ratio = Math.min(maxHeight / img.height, ratio);
-							}
-							
-							canvas.width = img.width * ratio;
-							canvas.height = img.height * ratio;
-							ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-							
-							// insert this into the current document as an image 
-							var canvasDataURL = canvas.toDataURL();
-							log("CANVAS LENGTH" + canvas.toDataURL().length );
-							insert("insertimage", canvasDataURL.length < reader.result.length? canvasDataURL : reader.result );
-	
-					        
-					    };
-					
-					    img.src = reader.result;
-					    log("IMG LENGTH "+reader.result.length);
-					    
-					};
-					reader.readAsDataURL(file);
-				})
+			$fileType = $("<input type='file' style='opacity:0;position:absolute;left:-1000px' multiple='true'/>")
+				.change(function(){insertimage(this);})
 				.insertAfter(this);
 		}
 
@@ -462,8 +420,89 @@ $(window).scroll(function(e){
 	$("body>header")[(document.body.scrollTop>1?'add':'remove')+'Class']("float");
 });
 
-
-
-$("body > article").bind('drop', function(){
+$("body > article").bind('dragover',function(){return false;}).bind('drop', function(e){
+	log(e);
+	var holder= this;
+	e = (e&&e.originalEvent?e.originalEvent:window.event) || e;
 	
+	if(e.preventDefault){
+		e.preventDefault();
+	}
+	insertimage(e.files?e:e.dataTransfer);
+	return false;
 });
+
+
+// window.addEventListener('paste', ... or
+document.onpaste = function(event){
+	insertimage(event.clipboardData);
+}
+
+/**
+ * Insert images if they are passed as a dataTransfer array.
+ * This is used for body[ondrop]() and input[type=file][onchange]() as well as document[onpaste]
+ * Images are reduced to a smaller size
+ */
+function insertimage(e){
+
+	if(!("FileReader" in window)){
+		return;
+	};
+	log(JSON.stringify(e));
+
+	if(e.files&&e.files.length){
+		for(var i=0;e.files.length;i++){
+			file(e.files[i]);
+		}
+	}
+	else if(e.items&&e.items.length){
+		// pasted image
+		for(var i=0;i<e.items.length;i++){
+			if( e.items[i].kind==='file' && e.items[i].type.match(/^image/) ){
+				file(e.items[i].getAsFile());
+			}
+		}
+	}
+	
+	function file(file){
+		var reader = new FileReader();
+	
+		reader.onload = function(){
+
+		    var img = new Image(),
+		    	canvas = document.createElement("canvas"),
+		    	ctx = canvas.getContext("2d"),
+		    	maxWidth = maxHeight = 700;
+	
+			
+		    img.onload = function()
+		    {
+				var ratio = 1;
+				
+				if(img.width > maxWidth){
+					ratio = maxWidth / img.width;
+				}
+				if(img.height > maxHeight){
+					ratio = Math.min(maxHeight / img.height, ratio);
+				}
+				
+				canvas.width = img.width * ratio;
+				canvas.height = img.height * ratio;
+				ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+				
+				// insert this into the current document as an image 
+				var canvasDataURL = canvas.toDataURL();
+				log("CANVAS LENGTH" + canvas.toDataURL().length );
+				insert("insertimage", canvasDataURL.length < reader.result.length? canvasDataURL : reader.result );
+	
+		        
+		    };
+		
+		    img.src = reader.result;
+		    log("IMG LENGTH "+reader.result.length);
+		    
+		};
+		reader.readAsDataURL(file);
+	}
+
+}

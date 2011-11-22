@@ -127,11 +127,14 @@ body {
 		font-size:1.4em;
 	}
 	
+		body article h1{
+			font-size:2em;
+		}
+		body article h2{
+			font-size:1.5em;
+		}
 		body article h3{
-			line-height:115%;
-			page-break-after:avoid;
-			font-size:11.0pt;
-			color:#4F81BD;
+			font-size:1.17em;
 		}
 	
 		body article p{
