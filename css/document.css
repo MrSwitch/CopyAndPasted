@@ -226,7 +226,7 @@ body {
 }
 
 
-
+/*
 * {
 	scrollbar-3dlight-color:#333333;
 	scrollbar-arrow-color:#999999;
@@ -268,3 +268,4 @@ body {
 ::-webkit-scrollbar-thumb:vertical:hover {
     background-color: #1b1b1b;
 }
+*
