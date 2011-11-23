@@ -141,7 +141,8 @@ function insert(cmd,value){
 	 * This function returns {obj:element,text:string}
 	 */
 	log(sel,value,cmd);
-	var sel = $(window).selectedText();
+	var sel = $(window).selectedText(),
+		src;
 	
 
 	/**
@@ -151,10 +152,10 @@ function insert(cmd,value){
 	 */
 	if( (cmd==='insertimage'||cmd==='createlink') ){
 		if(sel.obj.tagName==='A'){
-			tool.promptValue = sel.obj.href;
+			src = sel.obj.href;
 		}
 		if(sel.obj.tagName==='IMG'){
-			tool.promptValue = sel.obj.src;
+			src = sel.obj.src;
 		}
 	}
 
@@ -197,7 +198,7 @@ function insert(cmd,value){
 
 	try{
 		log([window, cmd, value]);
-		document.execCommand(cmd, false, value);
+		document.execCommand(cmd, true, value);
 	}
 	catch(e){
 		//IE WAY to insert at the current point
@@ -434,24 +435,29 @@ $("body > article").bind('dragover',function(){return false;}).bind('drop', func
 
 
 // window.addEventListener('paste', ... or
-document.onpaste = function(event){
-	insertimage(event.clipboardData);
+document.onpaste = function(e){
+	log(JSON.stringify(e.clipboardData));
+	return !insertimage(e.clipboardData);
 }
 
 /**
  * Insert images if they are passed as a dataTransfer array.
  * This is used for body[ondrop]() and input[type=file][onchange]() as well as document[onpaste]
  * Images are reduced to a smaller size
+ *
+ * @param e event aka from clipboardData and dataTransfer, or <input type=file> element with "files" as an attribute 
+ * @returns true (works), false(failed)
  */
 function insertimage(e){
 
 	if(!("FileReader" in window)){
-		return;
-	};
-	log(JSON.stringify(e));
+		return false;
+	}
+
+//	log(JSON.stringify(e));
 
 	if(e.files&&e.files.length){
-		for(var i=0;e.files.length;i++){
+		for(var i=0;i<e.files.length;i++){
 			file(e.files[i]);
 		}
 	}
@@ -459,20 +465,40 @@ function insertimage(e){
 		// pasted image
 		for(var i=0;i<e.items.length;i++){
 			if( e.items[i].kind==='file' && e.items[i].type.match(/^image/) ){
+				var files;
 				file(e.items[i].getAsFile());
+			}
+			else if (e.items[i].kind==='string'){
+				// if clipboard data contains string we're just going to paste it as HTML. Its too much hassle sorting it out
+				return false;
 			}
 		}
 	}
+	else{
+		return false;
+	}
+
+	return true;
 	
 	function file(file){
+		// Create image
+		var temp = 'data:image/gif;base64,R0lGODlhEAAQAOUdAOvr69HR0cHBwby8vOzs7PHx8ff397W1tbOzs+Xl5ebm5vDw8PPz88PDw7e3t+3t7dvb2+7u7vX19eTk5OPj4+rq6tbW1unp6bu7u+fn5+jo6N/f3+/v7/7+/ra2ttXV1f39/fz8/Li4uMXFxfb29vLy8vr6+sLCwtPT0/j4+PT09MDAwL+/v7m5ubS0tM7OzsrKytra2tTU1MfHx+Li4tDQ0M/Pz9nZ2b6+vgAAAAAAAAAAAAAAAAAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFMAA5ACwAAAAAEAAQAAAGg8CcMAcICAY5QsEwHBYPCMQhl6guGM5GNOqgVhMPbA6y5Xq/kZwkN3Fsu98EJcdYKCo5i7kKwCorVRd4GAg5GVgAfBpxaRtsZwkaiwpfD0NxkYl8QngARF8AdhmeDwl4pngUCQsVHDl2m2iveDkXcZ6YTgS3kAS0RKWxVQ+/TqydrE1BACH5BAkwADkALAAAAAAQABAAAAZ+wJwwJ1kQIgNBgDMcdh6KRILgQSAOn46TIJVSrdZGSMjpeqtgREAoYWi6BFF6xCAJS6ZyYhEIUwxNQgYkFxwBByh2gU0kKRVHi4sgOQuRTRJtJgwSBJElihwMQioqGmw5gEMLKk2AEkSBq4ElQmNNoYG2OVpDuE6Lrzmfp0NBACH5BAUwADkALAAAAAAQABAAAAaFwJwwJ1kQCDlCwTAcMh6KhDQnVSwYTkJ1un1gc5wtdxsh5iqaLbVKyVEWigq4ugZgTyiA9CK/JHIZWCsICCxpVWV/EzkHhAgth1UPQ4OOLXpScmebFA6ELHAZclBycXIULi8VZXCZawplFG05flWlakIVWravCgSaZ1CuksBDFQsAcsfFQQAh+QQJMAA5ACwAAAAAEAAQAAAGQcCccEgsGo/IpHLJzDGaOcKCCUgkAEuFNaFRbq1dJCxX2WKRCFdMmJiiEQjRp1BJwu8y5R3RWNsRBx9+SSsxgzlBACH5BAkwADkALAAAAAAQABAAAAaJwJwwJ1kQCDlCwTAcMh6KhDQnVSwYTkJ1un1gc5wtdxsh5iqaLbVKyTEWigq4ugZglRXpRX5J5DJYAFIAaVVlfhNrURqFVQ9DYhqCgzkzCGdnVQBwGRU0LQiXCRUAORQJCwAcOTChoYplBXIKLq6vUXRCCQ22olUEcroJB66KD8FNCjUrlxWpTUEAIfkEBTAAOQAsAAAAABAAEAAABobAnDAnWRAIOULBMBwyHoqENCdVLBhOQnW6fWBznC13G8nZchXNllql5Bg2xA1cZQOwShwCMdDkLgk5GVgAUgAie3syVDkTbFIaiIkIJ0NiGnp7HiNonRVVAHEuFjlQFVQVAI0JCzYjrKCPZQWnf1unYkMVWrFbBLVoUIaPD8C6CwCnAMhNQQA7';
+
+		insert('insertimage',temp);
+
+				
+		// get position
+		var sel = $(window).selectedText();
+		
+		// render
 		var reader = new FileReader();
-	
+
 		reader.onload = function(){
 
 		    var img = new Image(),
 		    	canvas = document.createElement("canvas"),
 		    	ctx = canvas.getContext("2d"),
-		    	maxWidth = maxHeight = 700;
+		    	maxWidth = maxHeight = 1000;
 	
 			
 		    img.onload = function()
@@ -493,9 +519,15 @@ function insertimage(e){
 				// insert this into the current document as an image 
 				var canvasDataURL = canvas.toDataURL();
 				log("CANVAS LENGTH" + canvas.toDataURL().length );
-				insert("insertimage", canvasDataURL.length < reader.result.length? canvasDataURL : reader.result );
+				
+				// Replace temp
+				$(sel.obj).find("img").filter(function(){
+					return $(this).attr('src') === temp;
+				}).eq(0).attr('src', canvasDataURL.length < reader.result.length? canvasDataURL : reader.result );
+				
+				// insert image
+				//insert("insertimage", canvasDataURL.length < reader.result.length? canvasDataURL : reader.result  );
 	
-		        
 		    };
 		
 		    img.src = reader.result;
