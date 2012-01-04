@@ -110,6 +110,7 @@ function open(id,html){
 		window.localStorage.setItem(id, html);
 	}
 
+	/**
 	if(!!history.pushState){
 		// Is this a change in location?
 		history.pushState( {}, "New Document", id );
@@ -117,6 +118,7 @@ function open(id,html){
 		$(window).trigger('popstate');
 		return false;
 	}
+	*/
 
 	window.location.hash = id;
 }
