@@ -129,6 +129,7 @@ body {
 		margin:30px auto;
 		padding:100px;
 		font-size:1.4em;
+		float:left;
 	}
 	
 		body article h1{
