@@ -117,11 +117,12 @@ $.fn.selectedText = function(){
 		else {
 			throw 'Error';
 		}
+
 		// webkit
 		if(obj.nodeName==='#text'){
 			obj = obj.parentNode;
 		}
-	
+
 		// if the selected object has no tagName then return false.
 		if(typeof obj.tagName === 'undefined'){
 			return false;
@@ -143,7 +144,7 @@ function insert(cmd,value){
 	log(sel,value,cmd);
 	var sel = $(window).selectedText(),
 		src;
-	
+
 
 	/**
 	 * If this is the createLink or insert image
@@ -238,6 +239,7 @@ $("body > header > nav.editor > button").click(function(){
 			doc.body.createTextRange().moveToPoint( win.posx, win.posy).select();
 		}}
 		catch(err){}
+		log("Word");
 	}
 
 	var cmd = $(this).attr("data-cmd");
@@ -418,7 +420,7 @@ $("article").bind('click keyup blur', function(e){
 
 
 $(window).scroll(function(e){
-	$("body>header")[(document.body.scrollTop>1?'add':'remove')+'Class']("float");
+	$("body>header")[((document.body.scrollTop || document.documentElement.scrollTop ) >1?'add':'remove')+'Class']("float");
 });
 
 $("body > article").bind('dragover',function(){return false;}).bind('drop', function(e){

@@ -1,12 +1,15 @@
 ﻿html{
 }
+
 body {
 	margin:0;
+	text-align:center;
 	overflow:scroll;
 	font-size:12px;
 	background-color:#ccc;
 	font-family:Calibri, serif;
 }
+
 	body header{
 		position:fixed;
 		top:0;
@@ -15,6 +18,7 @@ body {
 		-webkit-transition:box-shadow 0.5s;
 		margin:0;
 		padding:0;
+		text-align:left;
 	}
 	body header.float{
 		background-color:inherit;
