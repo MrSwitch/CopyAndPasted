@@ -1,6 +1,7 @@
 ﻿/**
  * This is the file.js page
- * Author Andrew Dodson
+ * @author Andrew Dodson
+ * @since Nov 2011
  */
 
 $("body header nav.file button.save").click(function(e){
@@ -98,7 +99,7 @@ $(window).bind("hashchange popstate", function(){
 
 	// Save document ID.
 	document.body.id = id;
-	log(s,m);
+	//	log(s,m);
 
 });
 
