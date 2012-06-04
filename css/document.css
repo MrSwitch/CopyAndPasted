@@ -68,10 +68,8 @@ body {
 			}
 
 			body header nav button:hover{
-				-webkit-transition:border-top-color 0.3s, -webkit-transform 0.3s;
-				-webkit-transform:scale(1.5);
-				transition:border-top-color 0.3s, transform 0.3s;
-				transform:scale(1.5);
+				-webkit-transition:border-top-color 0.3s;
+				transition:border-top-color 0.3s;
 				border-top-color:rgba(0,0,0,0.1);
 			}
 			body header nav button.selected{
