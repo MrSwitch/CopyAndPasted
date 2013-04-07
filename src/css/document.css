@@ -1,4 +1,5 @@
-﻿html{
+﻿
+html{
 }
 
 body {
@@ -7,7 +8,7 @@ body {
 	overflow:scroll;
 	font-size:12px;
 	background-color:#ccc;
-	font-family:Calibri, serif;
+	font-family:"MS Trebuchet", sans-serif;
 }
 
 	body header{
@@ -46,9 +47,18 @@ body {
 				background:none;
 				font-size:1em;
 				border-top:3px solid transparent;
+				text-shadow: 0 0 10px white;
 			}
+
+			/* Use the following CSS code if you want to use data attributes for inserting your icons */
+			body header nav button{
+				font-family: 'IcoMoon';
+				speak: none;
+			}
+
 			body header nav button:hover{
 				-webkit-transition:border-top-color 0.3s;
+				transition:border-top-color 0.3s;
 				border-top-color:rgba(0,0,0,0.1);
 			}
 			body header nav button.selected{
