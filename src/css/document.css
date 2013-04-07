@@ -122,8 +122,16 @@ body {
 					outline:2px solid gold;
 				}
 
+
+
+
+/**
+ * Article,
+ * All these will/should/could be used as templates. And therefore need to be overridden.
+ */
 	body article{
-		max-width:800px;
+		box-sizing:border-box;
+		max-width:1000px;
 		background-color:white;
 		box-shadow:0 0 20px #888;
 		margin:30px auto;
@@ -154,8 +162,7 @@ body {
 				font-style:italic;
 				margin-left:10px;
 			}
-		
-		
+
 		body article header h2{
 			padding-bottom:0;
 			margin-bottom:0;
@@ -169,10 +176,11 @@ body {
 		}
 		
 		body article img{
+			-webkit-box-sizing:border-box;
+			box-sizing:border-box;
 			max-width:100%;
-			padding:2px; 
-			margin:0 -2px; 
-			border:1px solid #eee;
+			padding:5px; 
+			border:1px solid #dadada;
 		}
 	
 	
@@ -210,6 +218,10 @@ body {
 		display:none;
 	}
 	
+	body article{
+		box-shadow:none;
+	}
+
 	body article a:after{
 		content:" [" attr(href) "]";
 	}
@@ -233,7 +245,7 @@ body {
 
 
 /*
-* {
+ {
 	scrollbar-3dlight-color:#333333;
 	scrollbar-arrow-color:#999999;
 	scrollbar-darkshadow-color:#333333;
@@ -274,4 +286,4 @@ body {
 ::-webkit-scrollbar-thumb:vertical:hover {
     background-color: #1b1b1b;
 }
-*
+*/
