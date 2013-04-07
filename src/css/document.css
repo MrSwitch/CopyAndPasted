@@ -1,15 +1,13 @@
-﻿@font-face {
-	font-family: '../assets/icons/IcoMoon';
-	src: url('../assets/icons/IcoMoon.eot');
-	src: url('../assets/icons/IcoMoon.eot?#iefix') format('embedded-opentype'),
-		url('../assets/icons/IcoMoon.svg#IcoMoon') format('svg'),
-		url('../assets/icons/IcoMoon.woff') format('woff'),
-		url('../assets/icons/IcoMoon.ttf') format('truetype');
+@font-face {
+	font-family: '../icons/IcoMoon';
+	src: url('../icons/IcoMoon.eot');
+	src: url('../icons/IcoMoon.eot?#iefix') format('embedded-opentype'),
+		url('../icons/IcoMoon.svg#IcoMoon') format('svg'),
+		url('../icons/IcoMoon.woff') format('woff'),
+		url('../icons/IcoMoon.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
-
-
 
 html{
 }

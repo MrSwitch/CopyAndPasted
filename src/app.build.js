@@ -66,7 +66,7 @@ fs.readdirSync('./').forEach(function(name){
 				});
 			});
 
-			return newpath;
+			return "url("+newpath+")";
 		});
 		return '<style>'+buffer+'</style>';
 	});
